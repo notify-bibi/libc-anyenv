@@ -37,6 +37,18 @@ $ ./download.sh <libc6-id>
 将会安装DWARF符号到 $bin_root/usr/lib/debug/.build-id , 方便gdb or ida
 将库解压到 **<libc6-id>**目录
 
+
+
+Error:![image-20201124012348568](readme.assets/image-20201124012348568.png)
+
+抱歉啊，根据libc-id去定位libc-dug-id是困难的，你🉑️访问如上`http://archive.ubuntu.com/ubuntu/pool/main/e/eglibc/` 
+
+搜索`2.15-0ubuntu10.18_i386` 的dbg项目
+
+将转换规则添加到download.sh![image-20201124012752357](readme.assets/image-20201124012752357.png)
+
+
+
 ## Make env
 
 ```bash

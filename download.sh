@@ -53,6 +53,11 @@ download_single() {
   wget "$url" 2>/dev/null -O $tmp/pkg.deb || die "Failed to download package from $url"
 
   local dbgurl=`echo $url | sed "s/libc6_/libc6-dbg_/"`
+  if [[ $dbgurl = $url ]]; then
+    dbgurl=`echo $url | sed "s/libc6-amd64_/libc6-dbg_/"`
+  fi
+  [[ $dbgurl = $url ]] && die "dbg url of $url not support"
+
   echo "  -> Downloading package-dbg to ${tmp}"
   wget "$dbgurl" 2>/dev/null -O $tmp/pkg-dbg.deb || die "Failed to download package from $dbgurl"
   
@@ -62,6 +67,7 @@ download_single() {
   pushd $tmp 1>/dev/null
   ar x pkg.deb || die "ar failed"
   tar xf data.tar.* || die "tar failed"
+  rm -rf data.tar.*
 
   ar x pkg-dbg.deb || die "ar failed"
   tar xf data.tar.* || die "tar failed" 
