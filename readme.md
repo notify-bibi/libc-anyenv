@@ -14,8 +14,9 @@
 
 **vim setup.sh**
 修改安装路径（最好指定到当前已有的环境，无破坏）
-***LibcSearcher***="$HOME/.local/LibcSearcher"
-***libcdatabase***="$HOME/libc-database"
+
+**LibcSearcher**="$HOME/.local/LibcSearcher"
+**libcdatabase**="$HOME/libc-database"
 
 ```bash
 $ ./setup.sh 
@@ -41,7 +42,7 @@ $ ./download.sh <libc6-id>
 
 Error:![image-20201124012348568](readme.assets/image-20201124012348568.png)
 
-抱歉啊，根据libc-id去定位libc-dug-id是困难的，你🉑️访问如上`http://archive.ubuntu.com/ubuntu/pool/main/e/eglibc/` 
+Sorry，根据libc-id去定位libc-dbg-id是困难的，你🉑️访问如上`http://archive.ubuntu.com/ubuntu/pool/main/e/eglibc/` 
 
 搜索`2.15-0ubuntu10.18_i386` 的dbg项目
 
@@ -79,7 +80,7 @@ $ cd ida-upup && make clean && make
 
 IDA远程调试的**linux_server**和其调试**目标程序**的**标准输入输出分开**
 
-**目标程序**的**标准输入输出🉑️重定向到socket **
+**目标程序**的**标准输入输出🉑️重定向到socket**
 
 ![QQ20201123-0](readme.assets/QQ20201123-0.png)
 
@@ -108,7 +109,7 @@ ubuntu、debian系统库（含libc6）环境 **全符号** 调试支持。
 
 分析linux_server后，发现其支持自动加载DWARF文件（含优先级），但是路径为空（格式: **path1;path2;....**），需要指定。
 
-1. 配合**download.sh**后会自动安装符号到**<libc6-id>/usr/lib/debug/.build-id**
+1. 配合**download.sh**后会自动安装符号到**\<libc6-id\>/usr/lib/debug/.build-id**
 
 2. **`LD_PRELOAD=[path to std2socket.so] BLOCK= ./linux_server** 开启调试
 

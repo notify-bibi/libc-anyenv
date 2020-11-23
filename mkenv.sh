@@ -16,8 +16,6 @@ help(){
     exit 1
 }
 
-[[ "$#" -le 1 ]] || [ "$1" == "-h" ] && help
-
 if [[ " $@ " == *" uninstall "* ]] ; then
   umount ${bin_root}/proc
   read -r -p  "rm -rf ${bin_root} ? [Y/n]" sure
@@ -28,6 +26,8 @@ if [[ " $@ " == *" uninstall "* ]] ; then
   exit
 fi
 
+
+[[ "$#" -le 1 ]] || [ "$1" == "-h" ] && help
 
 
 # ------------------------- do it --------------------------
@@ -61,15 +61,17 @@ die(){
 
 [[ ! -d "$id" ]] && die "not exist $id"
 
-mkdir -p $bin_root
+mkdir -p -m 755 $bin_root
 
 [[ ! -d "${bin_root}/proc" ]] && mkdir -p ${bin_root}/proc && mount --bind /proc ${bin_root}/proc
 # [[ ! -d "${bin_root}/proc" ]] && mkdir ${bin_root}/proc && mount -t proc none ${bin_root}/proc
 
 # [[ ! -d "${bin_root}/dev" ]] && mount --bind /dev ${bin_root}/dev
 
-mkdir -p ${bin_root}/bin
-mkdir -p ${bin_root}/dev
+exec 666>&2 2>/dev/null
+
+mkdir -p -m 755 ${bin_root}/bin
+mkdir -p -m 755 ${bin_root}/dev
 mknod -m 666 ${bin_root}/dev/null c 1 3
 mknod -m 666 ${bin_root}/dev/zero c 1 5 
 mknod -m 444 ${bin_root}/dev/random c 1 8
@@ -80,10 +82,11 @@ mknod -m 622 ${bin_root}/dev/console c 5 1
     
 cp -r $id/etc ${bin_root}/etc
 cp -r $id/lib ${bin_root}/lib
+cp -r $id/lib32 ${bin_root}/lib32
 cp -r $id/lib64 ${bin_root}/lib64
 cp -r $id/usr ${bin_root}/usr
 
-
+exec 2>&666
 
 cmd=""
 bin_fix_dep(){
@@ -97,13 +100,14 @@ bin_fix_dep(){
     fi
     local p=$(cd "$(dirname "$arg")"; pwd)
     echo -e "$arg \033[43;31;4m=>\033[0m ${bin_root}$arg"
-    mkdir -p ${bin_root}$p
+    mkdir -p -m 755 ${bin_root}$p
     cp $arg ${bin_root}$arg
     for deplib in $(ldd $arg | awk '{print $3}') ; do
-        cp -r -f -n ${deplib} ${bin_root}${deplib}
-        [[ ! -f "${bin_root}${deplib}" ]] && echo -e "  |_${deplib} \033[32m=>\033[0m bin_root${deplib}" 
-        [[ -f "${bin_root}${deplib}" ]] && echo -e "  |_${deplib} \033[31;1m=X>\033[0m bin_root${deplib}"
-        [[ ! -f "${bin_root}${deplib}" ]] && cp -n -f `readlink -f $deplib` bin_root`readlink -f $deplib`
+        mkdir -p -m 755 `dirname ${bin_root}${deplib}`
+        cp -r -f -n ${deplib} ${bin_root}${deplib} || die "error cp"
+        [[ ! -f "${bin_root}${deplib}" ]] && echo -e "  |_${deplib} \033[32m=>\033[0m ${bin_root}${deplib}" 
+        [[ -f "${bin_root}${deplib}" ]] && echo -e "  |_${deplib} \033[31;1m=X>\033[0m ${bin_root}${deplib}"
+        [[ ! -f "${bin_root}${deplib}" ]] && cp -n -f `readlink -f $deplib` ${bin_root}`readlink -f $deplib`
     done
     
 }  
