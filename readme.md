@@ -51,9 +51,9 @@ example: sudo ./mkenv.sh libc6_2.23-0ubuntu11.2_amd64 bash linux_server64 sh ls 
 
 ```
 
-![image-20201216171532053](readme.assets/image-20201216171532053.png)
+![image-20201216175359222](readme.assets/image-20201216175359222.png)
 
-
+ **lib 32&64 mix it all up**
 
 # ida调试能力增强
 

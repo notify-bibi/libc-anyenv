@@ -80,11 +80,12 @@ mknod -m 666 ${bin_root}/dev/tty c 5 0
 mknod -m 666 ${bin_root}/dev/ptmx c 5 2 
 mknod -m 622 ${bin_root}/dev/console c 5 1
     
-cp -r $id/etc ${bin_root}/etc
-cp -r $id/lib ${bin_root}/lib
-cp -r $id/lib32 ${bin_root}/lib32
-cp -r $id/lib64 ${bin_root}/lib64
-cp -r $id/usr ${bin_root}/usr
+cp -r $id/etc/ ${bin_root}/
+cp -r $id/lib/ ${bin_root}/
+cp -r $id/lib32/ ${bin_root}/
+cp -r $id/lib64/ ${bin_root}/
+cp -r $id/usr/ ${bin_root}/
+cp -r global_libs/* ${bin_root}/
 
 exec 2>&666
 
