@@ -40,16 +40,6 @@ $ ./download.sh <libc6-id>
 
 
 
-Error:![image-20201124012348568](readme.assets/image-20201124012348568.png)
-
-Sorry，根据libc-id去定位libc-dbg-id是困难的，你🉑️访问如上`http://archive.ubuntu.com/ubuntu/pool/main/e/eglibc/` 
-
-搜索`2.15-0ubuntu10.18_i386` 的dbg项目
-
-将转换规则添加到download.sh![image-20201124012752357](readme.assets/image-20201124012752357.png)
-
-
-
 ## Make env
 
 ```bash
@@ -60,6 +50,8 @@ sudo ./mkenv.sh uninstall   -- uninstall the change_root
 example: sudo ./mkenv.sh libc6_2.23-0ubuntu11.2_amd64 bash linux_server64 sh ls cat id
 
 ```
+
+![image-20201216171532053](readme.assets/image-20201216171532053.png)
 
 
 
@@ -80,7 +72,7 @@ $ cd ida-upup && make clean && make
 
 IDA远程调试的**linux_server**和其调试**目标程序**的**标准输入输出分开**
 
-**目标程序**的**标准输入输出🉑️重定向到socket**
+**目标程序**的**标准输入输出可以 重定向到socket**
 
 ![QQ20201123-0](readme.assets/QQ20201123-0.png)
 
@@ -132,4 +124,14 @@ ubuntu、debian系统库（含libc6）环境 **全符号** 调试支持。
 5. **可以配合上面的chroot，所有版本的库都能支持符号加载 ！**
 
 
+
+
+
+# Error:![image-20201124012348568](readme.assets/image-20201124012348568.png)
+
+Sorry，根据libc-id去定位libc-dbg-id是困难的，你可以访问如上`http://archive.ubuntu.com/ubuntu/pool/main/e/eglibc/` 
+
+搜索`2.15-0ubuntu10.18_i386` 的dbg项目
+
+将转换规则添加到download.sh![image-20201124012752357](readme.assets/image-20201124012752357.png)
 
